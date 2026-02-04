@@ -1,0 +1,50 @@
+name: DevSecOps Secure Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  security-check:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
+
+    - name: Install Dependencies
+      run: |
+        pip install -r requirements.txt
+        pip install bandit
+
+    # ---------------------
+    # Code Scan
+    # ---------------------
+    - name: Bandit Security Scan
+      run: bandit -r app -f txt
+
+    # ---------------------
+    # Docker Build
+    # ---------------------
+    - name: Build Docker Image
+      run: docker build -t secure-fastapi .
+
+    # ---------------------
+    # Container Scan
+    # ---------------------
+    - name: Trivy Scan
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: secure-fastapi
+        format: table
+        exit-code: 1
+        ignore-unfixed: true
+        vuln-type: os,library
+        severity: CRITICAL,HIGH
