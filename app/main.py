@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-#import subprocess   #  Remove this line wwhen its needed to showwcase it oke?
+import subprocess   #  Remove this line wwhen its needed to showwcase it oke?
 
 app = FastAPI()
 
@@ -11,7 +11,7 @@ def home():
 def health():
     return {"status": "ok"}
 
-# 👇 Temporary insecure endpoint  for demo only
-#@app.get("/test")
-#def test():
-#    subprocess.call("ls", shell=True)
+ 👇 Temporary insecure endpoint  for demo only
+@app.get("/test")
+def test():
+   subprocess.call("ls", shell=True)
