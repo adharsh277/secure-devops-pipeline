@@ -6,7 +6,6 @@ This project demonstrates a simple **DevSecOps CI pipeline** using GitHub Action
 It automatically scans application code and Docker containers for security issues before allowing the build to succeed.
 
 The goal is to show how security checks can be integrated early into the development workflow.
-
 ---
 
 ## ⚙️ Tech Stack
